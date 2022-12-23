@@ -10,7 +10,7 @@ import networkx as nx
 class SyntheticDataset(object):
     _logger = logging.getLogger(__name__)
 
-    def __init__(self, n, d, graph_type, degree, sem_type, noise_scale=1.0, dataset_type='linear'):
+    def __init__(self, n, d, graph_type, degree, sem_type, noise_scale=1.0, dataset_type='linear', seed=123):
         self.n = n
         self.d = d
         self.graph_type = graph_type
@@ -19,19 +19,20 @@ class SyntheticDataset(object):
         self.noise_scale = noise_scale
         self.dataset_type = dataset_type
         self.w_range = (0.5, 2.0)
+        self.seed = seed
 
         self._setup()
         self._logger.debug('Finished setting up dataset class')
 
     def _setup(self):
         self.W = SyntheticDataset.simulate_random_dag(self.d, self.degree,
-                                                      self.graph_type, self.w_range)
+                                                      self.graph_type, self.w_range, self.seed)
 
         self.X = SyntheticDataset.simulate_sem(self.W, self.n, self.sem_type, self.w_range,
-                                               self.noise_scale, self.dataset_type)
+                                               self.noise_scale, self.dataset_type, self.seed)
 
     @staticmethod
-    def simulate_random_dag(d, degree, graph_type, w_range):
+    def simulate_random_dag(d, degree, graph_type, w_range, seed=123):
         """Simulate random DAG with some expected degree.
         Args:
             d: number of nodes
@@ -41,15 +42,18 @@ class SyntheticDataset(object):
         Returns:
             W: weighted DAG
         """
+        
+        rng = np.random.default_rng(seed)
+        
         if graph_type == 'erdos-renyi':
             prob = float(degree) / (d - 1)
-            B = np.tril((np.random.rand(d, d) < prob).astype(float), k=-1)
+            B = np.tril((rng.uniform(size=(d, d)) < prob).astype(float), k=-1)
         elif graph_type == 'barabasi-albert':
             m = int(round(degree / 2))
             B = np.zeros([d, d])
             bag = [0]
             for ii in range(1, d):
-                dest = np.random.choice(bag, size=m)
+                dest = rng.choice(bag, size=m)
                 for jj in dest:
                     B[ii, jj] = 1
                 bag.append(ii)
@@ -59,16 +63,16 @@ class SyntheticDataset(object):
         else:
             raise ValueError('Unknown graph type')
         # random permutation
-        P = np.random.permutation(np.eye(d, d))  # permutes first axis only
+        P = rng.permutation(np.eye(d, d))  # permutes first axis only
         B_perm = P.T.dot(B).dot(P)
-        U = np.random.uniform(low=w_range[0], high=w_range[1], size=[d, d])
-        U[np.random.rand(d, d) < 0.5] *= -1
+        U = rng.uniform(low=w_range[0], high=w_range[1], size=[d, d])
+        U[rng.uniform(size=(d, d)) < 0.5] *= -1
         W = (B_perm != 0).astype(float) * U
 
         return W
 
     @staticmethod
-    def simulate_sem(W, n, sem_type, w_range, noise_scale=1.0, dataset_type='nonlinear_1'):
+    def simulate_sem(W, n, sem_type, w_range, noise_scale=1.0, dataset_type='nonlinear_1', seed=123):   
         """Simulate samples from SEM with specified type of noise.
         Args:
             W: weigthed DAG
@@ -78,6 +82,9 @@ class SyntheticDataset(object):
         Returns:
             X: [n,d] sample matrix
         """
+        
+        rng = np.random.default_rng(seed)
+        
         G = nx.DiGraph(W)
         d = W.shape[0]
         X = np.zeros([n, d])
@@ -91,11 +98,11 @@ class SyntheticDataset(object):
                 raise ValueError('Unknown dataset type')
 
             if sem_type == 'linear-gauss':
-                X[:, j] = eta + np.random.normal(scale=noise_scale, size=n)
+                X[:, j] = eta + rng.normal(scale=noise_scale, size=n)
             elif sem_type == 'linear-exp':
-                X[:, j] = eta + np.random.exponential(scale=noise_scale, size=n)
+                X[:, j] = eta + rng.exponential(scale=noise_scale, size=n)
             elif sem_type == 'linear-gumbel':
-                X[:, j] = eta + np.random.gumbel(scale=noise_scale, size=n)
+                X[:, j] = eta + rng.gumbel(scale=noise_scale, size=n)
             else:
                 raise ValueError('Unknown sem type')    
 
