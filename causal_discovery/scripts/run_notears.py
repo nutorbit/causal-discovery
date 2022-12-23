@@ -28,8 +28,8 @@ def main():
     plt.show()
     
     fig, ax = plt.subplots(ncols=2)
-    sns.heatmap(dataset.W, ax=ax[0])
-    sns.heatmap(model.W, ax=ax[1])
+    sns.heatmap(dataset.W, ax=ax[0], cmap="PiYG", vmin=-2, vmax=2)
+    sns.heatmap(model.W, ax=ax[1], cmap="PiYG", vmin=-2, vmax=2)
     plt.show()
 
 
