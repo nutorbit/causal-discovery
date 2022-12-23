@@ -9,9 +9,11 @@ def main():
     n, d = 1000, 20
     graph_type, degree, sem_type = 'erdos-renyi', 4, 'linear-gauss'
     noise_scale = 1.0
+    dataset_type = 'linear'
+    seed = 123
 
     dataset = SyntheticDataset(n, d, graph_type, degree, sem_type,
-                               noise_scale, dataset_type='linear')
+                               noise_scale, dataset_type, seed)
     
     model = NoTears(
         rho=1, 
