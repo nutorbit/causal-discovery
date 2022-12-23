@@ -5,7 +5,7 @@ from typing import List
 from pyvis.network import Network
 
 
-def display_network(adj_matrix: np.ndarray, feature_names: List[str], output_path: str):
+def display_network(adj_matrix: np.ndarray, feature_names: List[str], output_path: str, weight_threshold: float=0.5):
     """
     Display network using pyvis
     
@@ -13,6 +13,7 @@ def display_network(adj_matrix: np.ndarray, feature_names: List[str], output_pat
         adj_matrix: adjacency matrix
         feature_names: feature names
         output_path: output path
+        weight_threshold: threshold for edge weights
     """
 
     G = nx.from_numpy_matrix(adj_matrix, create_using=nx.DiGraph)
@@ -33,7 +34,7 @@ def display_network(adj_matrix: np.ndarray, feature_names: List[str], output_pat
     # remove low weight edges
     for edge in list(G.edges()):
         w = G.edges[edge]['weight']
-        if abs(w) < 0.5:
+        if abs(w) < weight_threshold:
             G.remove_edge(*edge)
 
     nt = Network(directed=True)
