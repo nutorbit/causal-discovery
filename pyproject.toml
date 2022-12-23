@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "causal-discovery"
+version = "0.1.0"
+description = ""
+authors = ["nutorbit <nutorbitx@gmail.com>"]
+readme = "README.md"
+packages = [{include = "causal_discovery"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+jax = "^0.4.1"
+jaxlib = "^0.4.1"
+dm-haiku = "^0.0.9"
+optax = "^0.1.4"
+networkx = "^2.8.8"
+tqdm = "^4.64.1"
+matplotlib = "^3.6.2"
+seaborn = "^0.12.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
