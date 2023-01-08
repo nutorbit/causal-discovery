@@ -10,6 +10,20 @@ This repository uses [Poetry](https://python-poetry.org/) as a dependency manage
 $ poetry install
 ```
 
+## Usage
+
+Pull this repository and run the following command:
+
+```zsh
+$ poetry build
+```
+
+Then, install the package:
+
+```zsh
+$ pip install dist/causal-discovery-0.1.0.tar.gz
+```
+
 ## Algorithms
 
 | Algorithm | Reference |
