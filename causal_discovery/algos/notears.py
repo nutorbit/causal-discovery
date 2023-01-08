@@ -13,6 +13,7 @@ class NoTears:
     Paper: https://arxiv.org/abs/1803.01422
     """
     # TODO: need to refactor
+    # TODO: support categorical variables
     
     def __init__(self, rho: float, alpha: float, l1_reg: float, lr: float=1e-3):
         self.rho = rho

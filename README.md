@@ -24,6 +24,29 @@ Then, install the package:
 $ pip install dist/causal-discovery-0.1.0.tar.gz
 ```
 
+example usage:
+
+```python
+from causal_discovery.algos.notears import NoTears
+
+# load dataset
+dataset = ...  
+
+# initialize model
+model = NoTears(
+    rho=1, 
+    alpha=0.1, 
+    l1_reg=0, 
+    lr=1e-2
+)
+
+# learn the graph
+_ = model.learn(dataset.X)
+
+# adjacency matrix
+print(model.W)
+```
+
 ## Algorithms
 
 | Algorithm | Reference |
