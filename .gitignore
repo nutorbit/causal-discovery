@@ -1,4 +1,5 @@
 __pycache__/
+lib/
 
 .DS_Store
-*.lock
+*.html
