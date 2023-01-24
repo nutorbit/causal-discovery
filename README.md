@@ -58,3 +58,5 @@ print(model.W)
 This is the example of the results of the algorithm.
 
 ![Results](./images/notears_res.png)
+
+How to read this figure: for any value in coordinate (x, y) means the causal effect from y -> x.
