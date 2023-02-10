@@ -12,16 +12,10 @@ $ poetry install
 
 ## Usage
 
-Pull this repository and run the following command:
+You can install the package from PyPI:
 
 ```zsh
-$ poetry build
-```
-
-Then, install the package:
-
-```zsh
-$ pip install dist/causal-discovery-0.1.0.tar.gz
+$ pip install causal-discovery
 ```
 
 example usage:
@@ -41,10 +35,10 @@ model = NoTears(
 )
 
 # learn the graph
-_ = model.learn(dataset.X)
+_ = model.learn(dataset)
 
 # adjacency matrix
-print(model.W)
+print(model.get_result())
 ```
 
 ## Algorithms

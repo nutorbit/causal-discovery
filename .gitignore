@@ -1,5 +1,6 @@
 __pycache__/
 lib/
+dist/
 
 .DS_Store
 *.html
