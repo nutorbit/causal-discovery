@@ -104,3 +104,10 @@ class NoTears:
             self.alpha += self.rho * h
         
         return loss_history
+    
+    def get_result(self) -> jnp.ndarray:
+        """
+        Get the result.
+        """
+        
+        return self.W

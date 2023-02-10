@@ -29,7 +29,7 @@ def main():
     
     fig, ax = plt.subplots(ncols=2)
     sns.heatmap(dataset.W, ax=ax[0], cmap="PiYG", vmin=-2, vmax=2)
-    sns.heatmap(model.W, ax=ax[1], cmap="PiYG", vmin=-2, vmax=2)
+    sns.heatmap(model.get_result(), ax=ax[1], cmap="PiYG", vmin=-2, vmax=2)
     plt.show()
 
 
