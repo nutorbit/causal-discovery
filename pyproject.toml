@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "causal-discovery"
-version = "0.1.0"
+version = "0.1.1"
 description = ""
 authors = ["nutorbit <nutorbitx@gmail.com>"]
 readme = "README.md"
